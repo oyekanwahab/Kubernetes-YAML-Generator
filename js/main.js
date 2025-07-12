@@ -685,7 +685,17 @@ function generateYAML() {
       yaml = `# ${type} generation not implemented yet`;
   }
 
+  // Store original generated YAML and display it
+  originalGeneratedYAML = yaml;
   document.getElementById("output").textContent = yaml;
+  
+  // Reset to preview mode if in edit mode
+  if (isEditMode) {
+    toggleEditMode();
+  }
+  
+  // Clear any previous validation status
+  clearValidationStatus();
 }
 
 function generatePodYAML() {
@@ -1440,7 +1450,14 @@ function downloadYAML() {
 }
 
 function copyToClipboard() {
-  const text = document.getElementById("output").textContent;
+  let text;
+  
+  if (isEditMode) {
+    text = document.getElementById("yamlEditor").value;
+  } else {
+    text = document.getElementById("output").textContent;
+  }
+  
   if (!text) {
     alert("No YAML to copy. Please generate YAML first.");
     return;
@@ -1452,4 +1469,159 @@ function copyToClipboard() {
     console.error('Failed to copy: ', err);
     alert("Failed to copy to clipboard. Please copy manually.");
   });
+}
+
+// YAML Editor functionality
+let isEditMode = false;
+let originalGeneratedYAML = '';
+
+function toggleEditMode() {
+  const output = document.getElementById("output");
+  const editorContainer = document.getElementById("editorContainer");
+  const editor = document.getElementById("yamlEditor");
+  const editToggle = document.getElementById("editToggle");
+  const validateButton = document.getElementById("validateButton");
+  const resetButton = document.getElementById("resetButton");
+  
+  isEditMode = !isEditMode;
+  
+  if (isEditMode) {
+    // Switch to edit mode
+    const currentYAML = output.textContent;
+    if (currentYAML.trim()) {
+      editor.value = currentYAML;
+      output.style.display = 'none';
+      editorContainer.style.display = 'block';
+      editToggle.innerHTML = '👁️ Preview';
+      editToggle.style.background = '#6c757d';
+      validateButton.style.display = 'inline-block';
+      resetButton.style.display = 'inline-block';
+      
+      // Focus the editor
+      setTimeout(() => editor.focus(), 100);
+      
+      // Add real-time validation
+      editor.addEventListener('input', debounce(validateYAMLRealtime, 500));
+      
+      // Initial validation
+      validateYAML();
+    } else {
+      alert("Please generate YAML first before editing.");
+      isEditMode = false;
+    }
+  } else {
+    // Switch to preview mode
+    const editedYAML = editor.value;
+    output.textContent = editedYAML;
+    output.style.display = 'block';
+    editorContainer.style.display = 'none';
+    editToggle.innerHTML = '📝 Edit YAML';
+    editToggle.style.background = '#28a745';
+    validateButton.style.display = 'none';
+    resetButton.style.display = 'none';
+    clearValidationStatus();
+  }
+}
+
+function validateYAML() {
+  const editor = document.getElementById("yamlEditor");
+  const yaml = editor.value;
+  
+  try {
+    // Basic YAML validation
+    const lines = yaml.split('\n');
+    const errors = [];
+    
+    // Check for basic YAML structure
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const lineNum = i + 1;
+      
+      // Check for tabs (YAML should use spaces)
+      if (line.includes('\t')) {
+        errors.push(`Line ${lineNum}: Use spaces instead of tabs`);
+      }
+      
+      // Check for basic indentation consistency
+      if (line.trim() && line.match(/^( +)/)) {
+        const spaces = line.match(/^( +)/)[1].length;
+        if (spaces % 2 !== 0) {
+          errors.push(`Line ${lineNum}: Indentation should be multiples of 2 spaces`);
+        }
+      }
+      
+      // Check for missing colons in key-value pairs
+      if (line.trim() && !line.trim().startsWith('#') && !line.trim().startsWith('-') && line.includes(':')) {
+        const colonIndex = line.indexOf(':');
+        if (colonIndex === line.length - 1 || line[colonIndex + 1] !== ' ') {
+          // Only warn if it's not a URL or time format
+          if (!line.includes('http') && !line.includes('://') && !line.match(/\d{2}:\d{2}/)) {
+            errors.push(`Line ${lineNum}: Missing space after colon`);
+          }
+        }
+      }
+    }
+    
+    // Check for required Kubernetes fields
+    if (!yaml.includes('apiVersion:')) {
+      errors.push('Missing required field: apiVersion');
+    }
+    if (!yaml.includes('kind:')) {
+      errors.push('Missing required field: kind');
+    }
+    if (!yaml.includes('metadata:')) {
+      errors.push('Missing required field: metadata');
+    }
+    
+    const statusElement = document.getElementById("validationStatus");
+    
+    if (errors.length === 0) {
+      statusElement.innerHTML = '✅ YAML looks good!';
+      statusElement.style.color = '#28a745';
+    } else {
+      statusElement.innerHTML = `⚠️ ${errors.length} issue(s) found`;
+      statusElement.style.color = '#dc3545';
+      
+      // Show first few errors
+      const errorList = errors.slice(0, 3).join('; ');
+      statusElement.title = errorList;
+    }
+    
+  } catch (error) {
+    const statusElement = document.getElementById("validationStatus");
+    statusElement.innerHTML = '❌ Invalid YAML';
+    statusElement.style.color = '#dc3545';
+    statusElement.title = error.message;
+  }
+}
+
+function validateYAMLRealtime() {
+  if (isEditMode) {
+    validateYAML();
+  }
+}
+
+function clearValidationStatus() {
+  document.getElementById("validationStatus").innerHTML = '';
+}
+
+function resetToGenerated() {
+  if (originalGeneratedYAML) {
+    const editor = document.getElementById("yamlEditor");
+    editor.value = originalGeneratedYAML;
+    validateYAML();
+  }
+}
+
+// Utility function for debouncing
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
