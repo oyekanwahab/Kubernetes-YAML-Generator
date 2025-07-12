@@ -289,6 +289,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **GitHub**: [@oyekanwahab](https://github.com/oyekanwahab)
 - **Repository**: [Kubernetes-YAML-Generator](https://github.com/oyekanwahab/Kubernetes-YAML-Generator)
 
+## 🌐 Live Demo
+
+**🔗 [Try it live on GitHub Pages!](https://oyekanwahab.github.io/Kubernetes-YAML-Generator/)**
+
+*Note: The live demo is automatically updated when changes are pushed to the main branch.*
+
 ---
 
 ⭐ **Star this repository** if you find it helpful!
