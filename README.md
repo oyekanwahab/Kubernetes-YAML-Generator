@@ -7,6 +7,12 @@ A modern, user-friendly web application for generating Kubernetes YAML configura
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
+## 🌐 Live Demo
+
+**🔗 [Try it live on GitHub Pages!](https://oyekanwahab.github.io/Kubernetes-YAML-Generator/)**
+
+*Note: The live demo is automatically updated when changes are pushed to the main branch.*
+
 ## 🚀 Features
 
 ### 📋 **Supported Kubernetes Resources**
@@ -289,11 +295,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **GitHub**: [@oyekanwahab](https://github.com/oyekanwahab)
 - **Repository**: [Kubernetes-YAML-Generator](https://github.com/oyekanwahab/Kubernetes-YAML-Generator)
 
-## 🌐 Live Demo
-
-**🔗 [Try it live on GitHub Pages!](https://oyekanwahab.github.io/Kubernetes-YAML-Generator/)**
-
-*Note: The live demo is automatically updated when changes are pushed to the main branch.*
 
 ---
 
