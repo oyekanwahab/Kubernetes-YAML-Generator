@@ -1,5 +1,7 @@
-// Global variable to track current mode
+// Global variables
 let currentMode = 'easy';
+let isEditMode = false;
+let originalGeneratedYAML = '';
 
 function toggleMode() {
   currentMode = document.getElementById("generationMode").value;
@@ -1472,8 +1474,6 @@ function copyToClipboard() {
 }
 
 // YAML Editor functionality
-let isEditMode = false;
-let originalGeneratedYAML = '';
 
 function toggleEditMode() {
   const output = document.getElementById("output");

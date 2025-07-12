@@ -50,8 +50,11 @@
 
     <h3>Generated YAML</h3>
     <div class="yaml-editor-controls">
-      <button id="validateButton" onclick="validateYAML()">
-        ✅ Validate YAML
+      <button id="editToggle" onclick="toggleEditMode()">
+        📝 Edit Mode
+      </button>
+      <button id="validateButton" onclick="validateYAML()" style="display: none;">
+        ✅ Validate
       </button>
       <button id="resetButton" onclick="resetToGenerated()" style="display: none;">
         🔄 Reset to Generated
@@ -59,16 +62,20 @@
       <span id="validationStatus"></span>
     </div>
     
-    <div class="editor-toolbar">
-      📝 YAML Editor - Edit directly, validate, copy, or download
+    <div id="yamlDisplay">
+      <pre id="output" style="display: block;"></pre>
+      <div id="editorContainer" style="display: none;">
+        <div class="editor-toolbar">
+          📝 YAML Editor - Edit directly, validate, copy, or download
+        </div>
+        <textarea id="yamlEditor" placeholder="Generated YAML will appear here. You can edit it directly..."></textarea>
+      </div>
     </div>
-    <textarea id="yamlEditor" placeholder="Generated YAML will appear here. You can edit it directly..." readonly></textarea>
 
     <div style="text-align: center; margin-top: 20px;">
       <button onclick="generateYAML()">Generate YAML</button>
       <button onclick="downloadYAML()">Download YAML</button>
       <button onclick="copyToClipboard()">Copy to Clipboard</button>
-      <button onclick="resetToGenerated()" id="resetButton" style="background: #dc3545; display: none;">Reset to Generated</button>
     </div>
 
     <script src="js/main.js?v=1.0"></script>
