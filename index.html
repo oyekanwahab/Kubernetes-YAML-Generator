@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>K8s YAML Generator</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>Kubernetes YAML Generator</h2>
+
+  <label for="resourceType">Select Resource Type:</label>
+  <select id="resourceType" onchange="renderForm()">
+    <option value="">-- Select --</option>
+    <option value="Pod">Pod</option>
+    <option value="Deployment">Deployment</option>
+    <option value="Service">Service</option>
+  </select>
+
+  <div id="formArea" style="margin-top: 20px;"></div>
+
+  <h3>Generated YAML</h3>
+  <pre id="output" style="background: #f0f0f0; padding: 10px;"></pre>
+
+  <button onclick="generateYAML()">Generate YAML</button>
+  <button onclick="downloadYAML()">Download YAML</button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
