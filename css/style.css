@@ -266,7 +266,7 @@ select option[value="postgres"] {
   background: #1a202c;
   color: #e2e8f0;
   padding: 20px;
-  border: none;
+  border: 1px solid #4a5568;
   border-radius: 0 0 8px 8px;
   font-size: 14px;
   line-height: 1.4;
@@ -276,17 +276,37 @@ select option[value="postgres"] {
   word-wrap: normal;
   overflow-wrap: normal;
   box-sizing: border-box;
+  min-height: 300px;
 }
 
 #yamlEditor:focus {
   outline: none;
+  border-color: #4299e1;
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  background: #2d3748;
 }
 
-#editorContainer {
+#yamlEditor:read-only {
+  background: #2d3748;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+#yamlEditor:not(:read-only) {
+  background: #1a202c;
+  cursor: text;
+  opacity: 1;
+}
+
+.editor-toolbar {
+  background: #2d3748;
+  padding: 8px 12px;
   border: 1px solid #4a5568;
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 6px 6px 0 0;
+  border-bottom: none;
+  font-size: 12px;
+  color: #a0aec0;
+  font-family: monospace;
 }
 
 /* Syntax highlighting for the editor */
