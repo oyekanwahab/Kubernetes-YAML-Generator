@@ -6,24 +6,54 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <h2>Kubernetes YAML Generator</h2>
+  <div class="container">
+    <h2>Kubernetes YAML Generator</h2>
 
-  <label for="resourceType">Select Resource Type:</label>
-  <select id="resourceType" onchange="renderForm()">
-    <option value="">-- Select --</option>
-    <option value="Pod">Pod</option>
-    <option value="Deployment">Deployment</option>
-    <option value="Service">Service</option>
-  </select>
+    <div class="mode-selector">
+      <label for="generationMode">Generation Mode:</label>
+      <select id="generationMode" onchange="toggleMode()">
+        <option value="easy">Easy Mode</option>
+        <option value="pro">Pro Mode</option>
+      </select>
+    </div>
 
-  <div id="formArea" style="margin-top: 20px;"></div>
+    <label for="resourceType">Select Resource Type:</label>
+    <select id="resourceType" onchange="renderForm()">
+      <option value="">-- Select --</option>
+      <option value="Pod">Pod</option>
+      <option value="Deployment">Deployment</option>
+      <option value="Service">Service</option>
+      <option value="ConfigMap">ConfigMap</option>
+      <option value="Secret">Secret</option>
+      <option value="Namespace">Namespace</option>
+      <option value="PersistentVolume">PersistentVolume</option>
+      <option value="PersistentVolumeClaim">PersistentVolumeClaim</option>
+      <option value="Ingress">Ingress</option>
+      <option value="HorizontalPodAutoscaler">HorizontalPodAutoscaler</option>
+      <option value="Job">Job</option>
+      <option value="CronJob">CronJob</option>
+      <option value="DaemonSet">DaemonSet</option>
+      <option value="StatefulSet">StatefulSet</option>
+      <option value="ServiceAccount">ServiceAccount</option>
+      <option value="Role">Role</option>
+      <option value="RoleBinding">RoleBinding</option>
+      <option value="ClusterRole">ClusterRole</option>
+      <option value="ClusterRoleBinding">ClusterRoleBinding</option>
+      <option value="NetworkPolicy">NetworkPolicy</option>
+    </select>
 
-  <h3>Generated YAML</h3>
-  <pre id="output" style="background: #f0f0f0; padding: 10px;"></pre>
+    <div id="formArea" style="margin-top: 20px;"></div>
 
-  <button onclick="generateYAML()">Generate YAML</button>
-  <button onclick="downloadYAML()">Download YAML</button>
+    <h3>Generated YAML</h3>
+    <pre id="output" style="margin-top: 20px;"></pre>
 
-  <script src="js/main.js"></script>
+    <div style="text-align: center; margin-top: 20px;">
+      <button onclick="generateYAML()">Generate YAML</button>
+      <button onclick="downloadYAML()">Download YAML</button>
+      <button onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+
+    <script src="js/main.js"></script>
+  </div>
 </body>
 </html>
